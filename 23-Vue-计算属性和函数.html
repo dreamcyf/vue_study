@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.计算属性和函数
+通过计算属性我们能拿到处理后的数据, 但是通过函数我们也能拿到处理后的数据
+那么计算属性和函数有什么区别呢?
+2.1函数"不会"将计算的结果缓存起来, 每一次访问都会重新求值
+2.2计算属性"会"将计算的结果缓存起来, 只要数据没有发生变化, 就不会重新求值
+
+2.计算属性应用场景
+计算属性:比较适合用于计算不会频繁发生变化的的数据
+-->
+
+<div id="app">
+    <p>{{ msg1() }}</p>
+    <p>{{ msg1() }}</p>
+    <p>{{ msg1() }}</p>
+
+    <p>{{ msg2 }}</p>
+    <p>{{ msg2 }}</p>
+    <p>{{ msg2 }}</p>
+</div>
+<script>
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+
+        },
+        methods: {
+            /*
+            * 函数的特点：每次调用都会执行
+            * */
+            msg1(){
+                console.log("msg1函数被执行了！");
+                let res = 'abcdef'.split("").reverse().join("");
+                return res;
+            }
+
+        },
+        //专门用于定义计算属性的
+        /*
+        计算属性的特点：
+            只要返回的结果没变，那么计算就只会执行一次
+        计算属性的应用场景：
+           由于计算属性会将返回的结果缓存起来
+           所以如果返回的数据不经常发生变化,
+           那么使用计算属性的性能会比使用函数的性能高
+         */
+        computed: {
+            msg2: function () {
+                let res = 'abcdef'.split("").reverse().join("");
+                return res;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

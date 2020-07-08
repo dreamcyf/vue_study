@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.自定义指令参数
+    在使用官方指令的时候我们可以给指令传参
+    例如：v-model="name"
+    在我们自定义的指令中我们也可以传递传递
+
+2.获取自定义指令传递的参数
+在执行自定义指令对应的方法的时候, 除了会传递el给我们, 还会传递一个对象给我们
+这个对象中就保存了指令传递过来的参数
+
+注意点：
+    1.使用自定义指令时给的参数还要用''括起来。
+        如：<p v-color="'blue'">我是段落</p>
+
+-->
+<div id="app">
+    <p v-color="'blue'">我是段落</p>
+    <p v-color="'blue'">我是段落</p>
+</div>
+<script>
+    //全局自定义指令-参数
+    Vue.directive("color", {
+        bind: function (el, obj) {
+            // el.style.color = "red";
+            el.style.color = obj.value;
+        }
+    });
+
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        }
+    });
+</script>
+
+</body>
+</html>

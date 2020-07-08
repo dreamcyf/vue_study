@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 300px;
+            height: 300px;
+            background: red;
+        }
+
+        /*.v-enter {
+            opacity: 0;
+        }
+        .v-enter-to {
+            opacity: 1;
+        }
+        .v-enter-active {
+            transition: all 2s;
+        }
+
+        .v-leave {
+            opacity: 1;
+        }
+        .v-leave-to {
+            opacity: 0;
+        }
+        .v-leave-active {
+            transition: all 2s;
+        }*/
+    </style>
+</head>
+<body>
+<!--
+1.当前过渡存在的问题
+通过transition+类名的方式确实能够实现过渡效果
+但是实现的过渡效果并不能保存动画之后的状态
+因为Vue内部的实现是在过程中动态绑定类名, 过程完成之后删除类名
+正式因为删除了类名, 所以不能保存最终的效果
+
+2.在Vue中如何保存过渡最终的效果
+通过Vue提供的JS钩子来实现过渡动画
+v-on:before-enter="beforeEnter"  进入动画之前
+v-on:enter="enter"  进入动画执行过程中
+v-on:after-enter="afterEnter"  进入动画完成之后
+v-on:enter-cancelled="enterCancelled"  进入动画被取消
+
+v-on:before-leave="beforeLeave" 离开动画之前
+v-on:leave="leave"  离开动画执行过程中
+v-on:after-leave="afterLeave" 离开动画完成之后
+v-on:leave-cancelled="leaveCancelled" 离开动画被取消
+
+3.JS钩子实现过渡注意点
+3.1在动画过程中必须写上el.offsetWidth或者el.offsetHeight
+3.2在enter和leave方法中必须调用done方法, 否则after-enter和after-leave不会执行
+3.3需要需要添加初始动画, 那么需要把done方法包裹到setTimeout方法中调用
+-->
+
+
+<!--MVVM中的View -->
+<div id="app">
+    <button @click="toggle">显示/隐藏</button>
+    <transition appear
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:after-enter="afterEnter"
+            v-on:enter-cancelled="enterCancelled"
+    >
+        <div class="box" v-show="isShow"></div>
+    </transition>
+
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+            isShow: true
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+            toggle(){
+                this.isShow = !this.isShow;
+            },
+
+            //进去时
+            beforeEnter(el){
+                //进入动画开始之前
+                el.style.opacity = "0";
+            },
+            enter(el, done){
+                //进入动画执行过程中
+                el.offsetHeight;
+                el.style.transition = "all 3s";
+                /*
+                注意点：动画执行完毕后一定要调用done回调函数
+                    否则后续的afterEnter钩子函数不会被执行
+                * */
+                // done();
+                /*注意点：如果想让元素一进来就有动画，那么最好延迟下在调用done()*/
+                setTimeout(function () {
+                    done();
+                }, 0);
+            },
+            afterEnter(el){
+                el.style.opacity = "1";
+                el.style.marginLeft = "500px";
+            }
+
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+
+    });
+</script>
+
+</body>
+</html>

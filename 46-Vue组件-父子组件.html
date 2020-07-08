@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.什么是父子组件?
+在一个组件中又定义了其它组件就是父子组件
+其实局部组件就是最简单的父子组件, 因为我们说过可以把Vue实例看做是一个大组件
+我们在Vue实例中定义了局部组件, 就相当于在大组件里面定义了小组件, 所以实局部组件就是最简单的父子组件
+
+2.如何定义其它的父子组件
+前面我们说过, 自定义组件中可以使用data, 可以使用methods. 当然自定义组件中也可以使用components
+所以我们也可以在自定义组件中再定义其它组件
+-->
+
+
+<!--MVVM中的View -->
+<div id="app">
+    <!--<home></home>-->
+
+    <father></father>
+    <!--<son></son>-->
+
+</div>
+<!--
+<template id="home">
+    <div>
+        <p>我是首页</p>
+    </div>
+</template>
+-->
+<template id="father">
+    <div>
+        <p>我是父组件</p>
+        <son></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <p>我是子组件</p>
+    </div>
+</template>
+<script>
+    //除了在全局组件中可以定义子组件，在局部组件中也也可以子组件
+    /*
+    Vue.component("father", {
+        template: "#father",
+        //在父组件中在注册个子组件
+        //在父组件中注册的，那就只能在父组件里面使用
+        components: {
+            "son": {
+                template: "#son"
+            }
+        }
+    });
+    */
+
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //注册局部组件
+        components: {
+            // "home": {
+            //     template: "#home"
+            // }
+
+            //在局部组件中定义子组件
+            "father": {
+                template: "#father",
+                //在父组件中在注册个子组件
+                //在父组件中注册的，那就只能在父组件里面使用
+                components: {
+                    "son": {
+                        template: "#son"
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

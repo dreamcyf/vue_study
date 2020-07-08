@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+    </style>
+
+    <!--导入Animate.css-->
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+</head>
+<body>
+<!--
+1.配合Animate.css实现过渡动画
+    1.1导入Animate.css库
+        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    1.2在执行过程中的属性上绑定需要的类名
+
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+    <button @click="toggle">显示/隐藏</button>
+    <transition appear
+                enter-class=""
+                enter-active-class="animated bounceInRight"
+                enter-to-class=""
+    >
+        <div class="box" v-show="isShow"></div>
+    </transition>
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+            isShow: true
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+            toggle(){
+                this.isShow = !this.isShow;
+            }
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>66-</title>
+    <!--下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.什么是命名视图?
+命名视图和前面讲解的具名插槽很像, 都是让不同的出口显示不同的内容
+命名视图就是当路由地址被匹配的时候同时指定多个出口, 并且每个出口中显示的内容不同
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+    <a href="#"></a>
+    <a href="#"></a>
+    <!---->
+
+</div>
+
+<template id="one">
+    <div class="onepage">
+        <p>我是第1个界面</p>
+    </div>
+</template>
+<template id="two">
+    <div class="twopage">
+        <p>我是第2个界面</p>
+    </div>
+</template>
+<script>
+    //1.定义组件
+
+
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //专门用于定义局部组件的
+        components: {
+            one: one,
+            two: two
+        }
+    });
+</script>
+
+</body>
+</html>

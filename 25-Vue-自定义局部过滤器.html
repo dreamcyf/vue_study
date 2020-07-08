@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.自定义全局过滤器的特点
+在任何一个Vue实例控制的区域中都可以使用
+
+2.自定义局部过滤器的特点
+只能在自定义的那个Vue实例中使用
+
+3.如何自定义一个局部指令
+给创建Vue实例时传递的对象添加
+filters: {
+    // key: 过滤器名称
+    // value: 过滤器处理函数
+    'formartStr': function (value) {}
+}
+-->
+
+
+
+<div id="app1">
+    <p>{{ name | formartStr1 }}</p>
+</div>
+<div id="app2">
+    <p>{{ name | formartStr1 }}</p>
+</div>
+<script>
+
+    /*//全局过滤器
+    Vue.filter("formartStr1", function (value) {
+        value = value.replace(/学院/g, "大学");
+        console.log(value);
+        return value;
+    });*/
+
+    //2.创建Vue实例对象
+    let vue1 = new Vue({
+        //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app1',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            name: "直播悦学院 智趣学院 前端学院 区块链学院"
+        }
+    });
+
+    let vue2 = new Vue({
+        //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app2',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            name: "直播悦学院 智趣学院 前端学院 区块链学院"
+        },
+        methods: {
+
+        },
+        computed: {
+
+        },
+        //局部过滤器--定义在app2中所以只能在app2中使用
+        filters: {
+            "formartStr": function (value) {
+                value = value.replace(/学院/g, "大学");
+                console.log(value);
+                return value;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

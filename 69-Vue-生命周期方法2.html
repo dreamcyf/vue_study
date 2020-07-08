@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>69-Vue生命周期方法2</title>
+    <!--下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.什么是生命周期方法?
+和wbpack生命周期方法一样, 都是在从生到死的特定阶段调用的方法
+PS: 生命周期钩子 = 生命周期函数 = 生命周期事件
+2.Vue生命周期方法分类
+2.1创建期间的生命周期方法
+    beforeCreate:
+    created:
+    beforeMount:
+    mounted:
+2.2运行期间的生命周期方法
+    beforeUpdate:
+    updated:
+2.3销毁期间的生命周期方法
+    beforeDestroy:
+    destroyed：
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+
+</div>
+<script>
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        beforeUpdate: function(){
+            /*
+            在调用beforeUpdate的时候，表示Vue实例保存的数据被修改了
+            注意点：1.只有保存的数据被修改了才会调用beforeUpdate，否则不会调用；
+            2.data的状态值是最新的，data数据已经更新了，但是页面上显示的数据还是旧的。
+             */
+            // console.log(beforeUpdate);
+            // console.log(this.msg);
+            // console.log(document.querySelector("p").innerHTML);
+            // console.log(document.querySelector("p").innerText);
+        },
+        updated: function(){
+            /*
+            在调用updated的时候，表示Vue实例中保存的数据被修改了并且界面也同步修改了数据；
+            也就是说：“数据和界面都同步更新后就会调用updated”
+            * */
+            console.log(this.msg);
+            console.log(document.querySelector("p").innerHTML);
+            console.log(document.querySelector("p").innerText);
+        },
+       //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //专门用于定义局部组件的
+        components: {
+        }
+
+    });
+</script>
+
+</body>
+</html>

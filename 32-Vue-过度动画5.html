@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+        .a{
+            opacity: 0;
+        }
+        .b{
+            opacity: 1;
+            margin-left: 500px;
+        }
+        .c{
+            transition: all 3s;
+        }
+    </style>
+</head>
+<body>
+<!--
+1.自定义类名动画
+在Vue中除了可以使用 默认类名(v-xxx)来指定过渡动画
+       除了可以使用 自定义类名前缀(yyy-xx)来指定过渡动画(transition name="yyy")
+       除了可以使用 JS钩子函数来指定过渡动画以外
+还可以使用自定义类名的方式来指定过渡动画
+
+enter-class  // 进入动画开始之前
+enter-active-class // 进入动画执行过程中
+enter-to-class // 进入动画执行完毕之后
+leave-class  // 离开动画开始之前
+leave-active-class // 离开动画执行过程中
+leave-to-class // 离开动画执行完毕之后
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+    <button @click="toggle">显示/隐藏</button>
+    <transition appear
+                enter-class="a"
+                enter-active-class="c"
+                enter-to-class="b"
+    >
+        <div class="box" v-show="isShow"></div>
+    </transition>
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+            isShow: true
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+            toggle(){
+                this.isShow = !this.isShow;
+            }
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+
+    });
+</script>
+
+</body>
+</html>

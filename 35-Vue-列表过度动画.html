@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .v-enter{
+            opacity: 0;
+        }
+        .v-enter-to{
+            opacity: 1;
+        }
+        .v-enter-active{
+            transition: all 3s;
+        }
+        .v-leave{
+            opacity: 1;
+        }
+        .v-leave-to{
+            opacity: 0;
+        }
+        .v-leave-active {
+            transition: all 3s;
+        }
+    </style>
+</head>
+<body>
+
+<!--MVVM中的View -->
+<div id="app">
+    <form>
+        <input type="text" placeholder="请输入姓名:" v-model="name">
+        <input type="submit" value="添加" @click.prevent="add">
+    </form>
+    <ul>
+        <transition-group appear>
+            <li v-for="(person,index) in persons" :key="person.id">
+                <input type="checkbox">
+                <span>{{index}} --- {{person.name}} <a href="#" @click.prevent="del(index)">删除</a></span>
+            </li>
+        </transition-group>
+    </ul>
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+            persons: [
+                {name: "zs", id: 1},
+                {name: "ls", id: 2},
+                {name: "ww", id: 3},
+            ],
+            name: ""
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+            add(){
+                let lastPerson = this.persons[this.persons.lenght - 1];
+                let newPerson = {name: this.name, id: lastPerson.id + 1};
+                // this.persons.push(newPerson);
+                this.persons.unshift(newPerson);
+                this.name = "";
+            },
+            del(index){
+                this.persons.splice(index, 1);
+            }
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+
+    });
+</script>
+
+</body>
+</html>

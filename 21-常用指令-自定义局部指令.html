@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.自定义全局指令的特点
+在任何一个Vue实例控制的区域中都可以使用
+
+2.自定义局部指令的特点
+只能在自定义的那个Vue实例中使用
+
+3.如何自定义一个局部指令
+给创建Vue实例时传递的对象添加
+directives: {
+    // key: 指令名称
+    // value: 对象
+    'color': {
+        bind: function (el, obj) {
+            el.style.color = obj.value;
+        }
+    }
+}
+-->
+
+
+<!--MVVM中的View -->
+<div id="app1">
+    <p v-color="'blue'">我是段落</p>
+</div>
+<div id="app2">
+    <p v-color="'red'">我是段落</p>
+</div>
+<script>
+    /*传递参数-全局自定义指令
+    Vue.directive("color", {
+        // 这里的el就是被绑定指令的那个元素
+        bind: function (el, obj) {
+            el.style.color = obj.value;
+        }
+    });
+     */
+
+    let vue1 = new Vue({
+        el: '#app1',
+        // 这里就是MVVM中的Model
+        data: {},
+        // 专门用于存储监听事件回调函数
+        methods: {}
+    });
+
+
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app2',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        methods: {
+        },
+        //专门用于自定义局部指令
+        directives: {
+          "color": {
+              bind: function (el, obj) {
+                el.style.color = obj.value;
+              }
+          }
+
+        }
+    });
+</script>
+
+</body>
+</html>

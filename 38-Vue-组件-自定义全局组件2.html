@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.创建组件的其它方式
+1.1在注册组件的时候, 除了传入一个组件构造器以外, 还可以直接传入一个对象
+1.2在编写组件模板的时候, 除了可以在字符串模板中编写以外, 还可以像过去的art-template一样在script中编写
+1.3在编写组件模板的时候, 除了可以在script中编写以外, vue还专门提供了一个编写模板的标签template
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+    <!--使用注册好的组件-->
+    <abc></abc>
+</div>
+<!--在script中编写模板1,创建组件
+<script id="info" type="text/html">
+    <div>
+        <img src="images/fm.jpg" alt="">
+        <p>我是描述信息</p>
+    </div>
+</script>-->
+
+<!--还可以使用template标签，编写模板，创建组件-->
+<template id="info">
+    <div>
+        <img src="images/fm.jpg" alt="">
+        <p>我是描述信息</p>
+    </div>
+</template>
+
+<script>
+
+    /*1.创建组件构造器*/
+    /*
+    let Profile = Vue.extend({
+        template: `
+           <div>
+                <img src="images/fm.jpg"/>
+                <p>我是描述信息</p>
+            </div>
+        `
+    });*/
+
+    //除了传入一个组件构造器以外, 还可以直接传入一个对象
+    let obj = {
+        template: `
+           <div>
+                <img src="images/fm.jpg"/>
+                <p>我是描述信息</p>
+            </div>
+        `
+    }
+
+    //2、注册已经创建好的组件
+    // Vue.component("abc", Profile);
+    // Vue.component("abc", obj);
+
+    /*//创建组件和注册一起写
+    Vue.component("abc", {
+        template: `
+           <div>
+                <img src="images/fm.jpg"/>
+                <p>我是描述信息</p>
+            </div>
+        `
+    });*/
+
+    Vue.component("abc",{
+        template: "#info"
+    });
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        //专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+    });
+</script>
+
+</body>
+</html>

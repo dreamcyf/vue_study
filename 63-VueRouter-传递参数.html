@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>63-VueRouter传递参数</title>
+    <!--下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <script src="lib/vue-router.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .onepage, .twopage{
+            width: 500px;
+            height: 500px;
+        }
+        .onepage{
+            background: pink;
+        }
+        .twopage{
+            background: skyblue;
+        }
+        /*通过重写router-link-active类名来实现设置选中样式*/
+        /*.router-link-active{
+            background: red;
+        }*/
+        /*可以通过linkActiveClass来指定选中样式,如：linkActiveClass: "nj-active"
+        在通过指定的类名设置选中样式
+        */
+        .nj-active{
+            background: skyblue;
+        }
+    </style>
+</head>
+<body>
+<!--
+1.Vue Router传递参数
+只要将Vue Router挂载到了Vue实例对象上, 我们就可以通过vue.$route拿到路由对象
+只要能拿到路由对象, 就可以通过路由对象拿到传递的参数
+
+方式一: 通过URL参数参数(?key=value&key=value), 通过this.$route.query获取
+方式二: 通过占位符传递(路由规则中/:key/:key, 路径中/value/value), 通过this.$route.params获取
+-->
+
+<!--MVVM中的View -->
+<div id="app">
+    <!--
+    方式1.第一种传递参数的方式：通过URL参数的还是传递，在指定HASH的时候，
+    通过?key=value$key=value的方式传递。通过vue.$route拿到
+    -->
+    <router-link to="/one?name=Inj&age=18" tag="button">切换到第一个界面</router-link>
+    <!--
+    第二种传递参数的方式: 通过路由规则中的占位符传递
+    在指定路由规则的时候通过/:key/:key的方式来指定占位符
+    在指定HASH的时候, 通过/value/value的方式来传递值
+    在传递的组件的生命周期方法中通过 this.$route.params的方式来获取
+    -->
+    <router-link to="/two/zs/19" tag="button">切换到第二个界面</router-link>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里router-view -->
+    <router-view></router-view>
+
+</div>
+
+<template id="one">
+    <div class="onepage">
+        <p>我是第1个界面</p>
+    </div>
+</template>
+<template id="two">
+    <div class="twopage">
+        <p>我是第2个界面</p>
+    </div>
+</template>
+<script>
+    //1.定义组件
+    const one = {
+        template: "#one",
+        created: function(){
+            console.log(this.$route);
+            console.log(this.$route.query.name);
+            console.log(this.$route.query.age);
+        }
+    };
+    const two = {
+        template: "#two",
+        created: function(){
+            console.log(this.$route);
+            console.log(this.$route.params.name);
+            console.log(this.$route.params.age);
+        }
+    };
+    //2.定义路由规则（定义切换规则）
+    const routes = [
+        //数组中的每一个对象就是一条规则
+        {path: '/one', component: one},
+        /*方式2：通过占位符传递(路由规则中/:key/:key, 路径中/value/value)
+                如：{path: '/two/:name/:age', component: two}
+                如：<router-link to="/two/zs/19" tag="button">切换到第二个界面</router-link>
+                中将zs和19分别赋值给name和age
+        * */
+        {path: '/two/:name/:age', component: two},
+    ];
+
+    //3.根据路由规则创建路由对象
+    const router = new VueRouter({
+        routes: routes,
+        //可以通过linkActiveClass来指定选中样式
+        linkActiveClass: "nj-active"
+    });
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.将创建好的路由绑定到Vue实例
+        router: router,
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //专门用于定义局部组件的
+        components: {
+            one: one,
+            two: two
+        }
+    });
+    // console.log(vue.$route);
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.v-on修饰符
+在事件中有很多东西需要我们处理, 例如事件冒泡,事件捕获, 阻止默认行为等
+那么在Vue中如何处理以上内容呢, 我们可以通过v-on修饰符来处理
+
+2.常见修饰符
+.once    - 只触发一次回调。
+.prevent - 调用 event.preventDefault()。
+.stop    - 调用 event.stopPropagation()。
+.self    - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
+.capture - 添加事件侦听器时使用 capture 模式。
+
+注意点：
+    1.注意点：默认情况下事件的回调函数可以反复的执行，只要事件被点触就会执行
+    2.如果想让事件监听的回调函数只执行一次, 那么就可以使用.once修饰符
+        <button v-on:click.once="myFn">我是按钮</button>
+    3.如果想阻止元素的默认行为, 那么可以使用.prevent修饰符
+    4.默认情况下载嵌套的元素中, 如果都监听了相同的事件, 那么会触发事件冒泡
+    如果想阻止事件冒泡, 那么可以使用.stop修饰符
+    5.如果想让回调只有当前元素触发事件的时候才执行, 那么就可以使用.self修饰符
+    6.默认情况下是事件冒泡, 如果想变成事件捕获, 那么就需要使用.capture修饰符
+-->
+
+
+
+<!--MVVM中的View -->
+<div id="app">
+    <!--注意点：默认情况下事件的回调函数可以反复的执行，只要事件被点触就会执行-->
+    <!--<button v-on:click="myFn">我是按钮</button>-->
+
+    <button v-on:click.once="myFn">我是按钮</button>
+
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        //专门用于存储监听事件回调函数
+        methods: {
+            myFn() {
+                alert("Inj666")
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

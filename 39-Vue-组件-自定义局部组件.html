@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.自定义全局组件特点
+在任何一个Vue实例控制的区域中都可以使用
+
+2.自定义局部组件特点
+只能在自定义的那个Vue实例控制的区域中可以使用
+
+3.如何自定义一个局部组件
+在vue实例中新增components: {}
+在{}中通过key/vue形式注册组件
+components:{
+   abc: {}
+}
+-->
+
+<!--MVVM中的View -->
+<div id="app1">
+    <abc></abc>
+</div>
+<div id="app2">
+    <abc></abc>
+</div>
+<template id="info">
+    <div>
+        <img src="images/fm.jpg"/>
+        <p>我是描述信息</p>
+    </div>
+</template>
+<script>
+    /*
+    //自定义全局组件
+    Vue.component("abc",{
+        template: "#info"
+    });
+    */
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue1 = new Vue({
+       //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app1',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+    });
+    let vue2 = new Vue({
+        //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app2',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //专门用于定义局部组件的
+        components: {
+            "abc":{
+                template: "#info"
+            }
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

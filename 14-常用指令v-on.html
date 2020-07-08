@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>14-常用指令v-on</title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.什么是v-on指令?
+v-on指令专门用于给元素绑定监听事件
+
+2.v-on指令格式
+v-on:事件名称="回调函数名称"
+@事件名称="回调函数名称"
+
+3.v-on注意点:
+v-on绑定的事件被触发之后, 会去Vue实例对象的methods中查找对应的回调函数
+
+注意点：
+    1.如果是通过v-on来绑定监听事件, 那么在指定事件名称的时候不需要写on
+    2.如果是通过v-on来绑定监听事件, 那么在赋值的时候必须赋值一个回调函数的名称
+    3.当绑定的事件被触发后, 会调用Vue实例的methods对象中对应的回调函数
+-->
+<!--MVVM中的View -->
+<div id="app">
+    <!--<button onclick="alert('InJ!!!')">我是按钮</button>-->
+
+    <!--
+    注意点:
+    1.如果是通过v-on来绑定监听事件, 那么在指定事件名称的时候不需要写on
+    2.如果是通过v-on来绑定监听事件, 那么在赋值的时候必须赋值一个回调函数的名称
+    -->
+    <!--<button v-on:click="alert('InJ!!!')">我是按钮</button>-->
+
+    <!--
+   注意点:
+   当绑定的事件被触发后, 会调用Vue实例的methods对象中对应的回调函数
+   -->
+    <button v-on:click="myFn">我是按钮</button>
+    <!--v-on:click简写方式：@click-->
+    <button @click="myFn">我是按钮</button>
+
+
+
+</div>
+<script>
+    //2.创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        methods: {
+            myFn(){
+                alert('InJ!!!')
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

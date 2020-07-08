@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>51-数据和方法的多级传递</title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<!--
+1.数据和方法的多级传递
+在Vue中如果儿子想使用爷爷的数据, 必须一层一层往下传递
+在Vue中如果儿子想使用爷爷的方法, 必须一层一层往下传递
+-->
+
+<div id="app">
+    <grandfather></grandfather>
+</div>
+<template id="grandfather">
+    <div>
+        <p>{{name}}</p>
+        <button @click="say">我是按钮Grandfather</button>
+        <father :gfname="name" @gfsay="say"></father>
+    </div>
+</template>
+<template id="father">
+    <div>
+        <p>{{gfname}}</p>
+        <button @click="fatherFn">我是按钮Father</button>
+        <son :fname="gfname" @fsay="fatherFn"></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <p>{{fname}}</p>
+        <button @click="sonFn">我是按钮Son</button>
+    </div>
+</template>
+<script>
+    //爷爷组件
+    Vue.component("grandfather", {
+        template: "#grandfather",
+        data: function(){
+            return {
+                name: "Inj"
+            }
+        },
+        methods: {
+            say(){
+                console.log("Grandfather的方法");
+            }
+        },
+        //爸爸组件
+        components: {
+            "father": {
+                template: "#father",
+                props: ["gfname"],
+                methods: {
+                    fatherFn(){
+                        this.$emit("gfsay");
+                    }
+                },
+                //儿子组件
+                components: {
+                    "son": {
+                        template: "#son",
+                        props: ["fname"],
+                        methods: {
+                            sonFn(){
+                                this.$emit("fsay");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+    });
+</script>
+
+</body>
+</html>

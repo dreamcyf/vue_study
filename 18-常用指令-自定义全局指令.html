@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+<div id="app1">
+    <p v-color="'blue'">我是段落</p>
+</div>
+<div id="app2">
+    <p v-color="'red'">我是段落</p>
+</div>
+<script>
+    /*
+    directive方法接收两个参数
+        第一个：指令的名称（不需要加v-）
+        第二个：对象
+    注意点：
+        1.在自定义指令的时候，在指定指令名称时，不需要加v-，在使用时需要加v-
+        2.指令在不同生命周期阶段执行
+            bind：指令呗绑定到元素上的时候执行
+            inserted：绑定指令的元素被添加到父元素上的时候执行（绑定指令的元素渲染出来后在执行）
+
+     */
+    Vue.directive("color", {
+        //这里的el：被绑定指令的那个元素
+        bind: function (el) {
+            el.style.color = "red";
+        }
+    });
+
+
+
+    //2.创建Vue实例对象
+    let vue = new Vue({
+        //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app1',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+
+        }
+    });
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app2',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            name: ""
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+
+        },
+        directives: {
+            "color": {
+                //
+                bind: function(el, obj){
+
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

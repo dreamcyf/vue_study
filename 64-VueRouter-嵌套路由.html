@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>64-嵌套路由</title>
+    <!--下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <script src="lib/vue-router.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .onepage, .twopage{
+            width: 500px;
+            height: 500px;
+        }
+        .onepage{
+            background: pink;
+        }
+        .twopage{
+            background: skyblue;
+        }
+        /*通过重写router-link-active类名来实现设置选中样式*/
+        /*.router-link-active{
+            background: red;
+        }*/
+        /*可以通过linkActiveClass来指定选中样式,如：linkActiveClass: "nj-active"
+        在通过指定的类名设置选中样式
+        */
+        .nj-active{
+            background: skyblue;
+        }
+    </style>
+</head>
+<body>
+<!--
+1.什么是嵌套路由?
+嵌套路由也称之为子路由, 就是在被切换的组件中又切换其它子组件
+例如: 在one界面中又有两个按钮, 通过这两个按钮进一步切换one中的内容
+-->
+
+<div id="app">
+
+    <router-link to="/one" tag="button">切换到第一个界面</router-link>
+    <router-link to="/two" tag="button">切换到第二个界面</router-link>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里router-view -->
+    <router-view></router-view>
+
+</div>
+
+<template id="one">
+    <div class="onepage">
+        <p>我是第1个界面</p>
+        <router-link to="/one/onesub1" tag="button">切换到第一个界面</router-link>
+        <router-link to="/one/onesub2" tag="button">切换到第二个界面</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+<template id="two">
+    <div class="twopage">
+        <p>我是第2个界面</p>
+    </div>
+</template>
+<script>
+    //1.定义组件
+    const onesub1 = {
+        template: "#one",
+        components: {
+            onesub1: onesub1,
+            onesub2: onesub2
+        }
+    };
+    const two = {
+        template: "#two"
+    };
+    //2.定义路由规则（定义切换规则）
+    const routes = [
+        //数组中的每一个对象就是一条规则
+        {path: '/one', component: one},
+        {path: '/one/onesub1', component: onesub1},
+        {path: '/one/onesub2', component: onesub2},
+        {path: '/two', component: two},
+    ];
+
+    //3.根据路由规则创建路由对象
+    const router = new VueRouter({
+        routes: routes,
+        //可以通过linkActiveClass来指定选中样式
+        linkActiveClass: "nj-active"
+    });
+
+    //创建Vue实例对象 MVVM中的View Model
+    let vue = new Vue({
+        //告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.将创建好的路由绑定到Vue实例
+        router: router,
+        //告诉Vue实例对象，被控制区域的数据是什么 MVVM中的Model
+        data: {
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+        },
+        //专门用于计算属性的
+        computed: {
+        },
+        //专门用于定义局部组件的
+        components: {
+            one: one,
+            two: two
+        }
+    });
+    // console.log(vue.$route);
+</script>
+
+</body>
+</html>

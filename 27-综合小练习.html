@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--1.下载后导入vue.js-->
+    <script src="lib/vue.js"></script>
+    <style>
+        * {
+           margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 800px;
+            margin: 50px auto;
+            /*background: skyblue;*/
+        }
+
+        table {
+            width: 100%;
+            background: #000;
+            text-align: center;
+        }
+
+        table tr {
+            background: #fff;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <form v-show="isShow">
+        <input type="text" placeholder="请输入序号" v-model="person.id">
+        <input type="text" placeholder="请输入姓名" v-model="person.name">
+        <input type="text" placeholder="请输入分数" v-model="person.score">
+        <input type="submit" value="新增" @click.prevent="add">
+        <input type="submit" value="查询" @click.prevent="query">
+    </form>
+    <table>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>分数</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(person, index) in persons">
+            <!--修改的数据不能保存到内存中去-->
+            <!--<td><input type="text" :value="person.id" :disabled="isDisabled"></td>
+            <td><input type="text" :value="person.name" :disabled="isDisabled"></td>
+            <td><input type="text" :value="person.score" :disabled="isDisabled"></td>
+            <td><input type="text" :value="person.time | dateFormart" :disabled="true"></td>-->
+
+            <!--使用数据双向绑定-->
+            <td><input type="text" v-model="person.id" :disabled="isDisabled"></td>
+            <td><input type="text" v-model="person.name" :disabled="isDisabled"></td>
+            <td><input type="text" v-model="person.score" :disabled="isDisabled"></td>
+            <td><input type="text" :value="person.time | dateFormart" disabled></td>
+
+            <td>
+                <a href="#" @click.prevent="edit">编辑</a>
+                <a href="#" @click.prevent="del(index)">删除</a>
+                <br>
+                <a href="#" @click.prevent="toggle">更多操作</a>
+            </td>
+        </tr>
+
+
+    </table>
+
+
+</div>
+<script>
+    /*时间格式化过滤器*/
+    Vue.filter("dateFormart", function (value, fmStr) {
+        // console.log(fmStr);
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = date.getMonth() +  1 + "";
+        let day = date.getDate() + "";
+        let hour = date.getHours() + "";
+        let minute = date.getMinutes() + "";
+        let second = date.getSeconds() + "";
+
+        if(fmStr && fmStr === "yyyy-MM-dd"){
+            return `${year}-${month.padStart(2,"0")}-${day.padStart(2,"0")}`;
+        }
+        return `${year}-${month.padStart(2,"0")}-${day.padStart(2,"0")} ${hour.padStart(2,'0')}:${minute.padStart(2,'0')}:${second.padStart(2,'0')}`;
+
+    });
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            isDisabled: true,
+            isShow: false,
+            persons: [{
+                id: 1,
+                name: "张三",
+                score: "89",
+                time: "2020-05-12 08:20:10"
+            },{
+                id: 2,
+                name: "李四",
+                score: "88",
+                time: Date.now()
+            },{
+                id: 3,
+                name: "王五",
+                score: "68",
+                time: Date.now()
+            }],
+            person: {
+                id: "",
+                name: "",
+                score: ""
+            }
+        },
+        // 专门用于存储监听事件回调函数
+        methods: {
+            edit(){
+                this.isDisabled = !this.isDisabled;
+            },
+            toggle(){
+                this.isShow = !this.isShow;
+            },
+            del(index){
+                this.person.splice(index, 1);
+            },
+            add(){
+                this.person.time = Date.now();
+                this.persons.push(this.person);
+                this.person = {
+                    id: "",
+                    name: "",
+                    score: ""
+                }
+            },
+            query(){
+                let newPersons = this.persons.filter((person) => {
+                    if (person.score === this.person.score){
+                        return true;
+                    }
+                });
+                this.persons = newPersons;
+            }
+        },
+        //专门用于计算属性的
+        computed: {
+        }
+
+
+    });
+</script>
+
+</body>
+</html>
