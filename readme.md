@@ -191,3 +191,135 @@
 </script>
 ```
 
+## 07-v-text和v-html指令
+
+### 插值的方式:
+
+​    		1.可以将指定的数据插入到指定的位置
+​    		2.不会解析HTML
+
+### 1.什么是v-text指令
+
+​    		v-text就相当于过去学习的innerText
+​    		1.会覆盖原有的内容
+​    		2.也不会解析HTML
+
+### 2.什么是v-html指令
+
+​    v-html就相当于过去学习的innerHTML
+​    		1.会覆盖原有的内容
+​    		2.会解析HTML
+
+```html
+<div id="app">
+    <p>++++++++++{{ name }}++++++++++</p>
+    <p>++++++++++{{ msg }}++++++++++</p>
+
+    <p v-text="name">++++++++++{{ name }}++++++++++</p>
+    <p v-text="msg">++++++++++{{ msg }}++++++++++</p>
+
+    <p v-html="name">++++++++++{{ name }}++++++++++</p>
+    <p v-html="msg">++++++++++{{ msg }}++++++++++</p>
+
+
+</div>
+<script>
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            name: "李南江",
+            msg: "<span>我是span</span>"
+        }
+    });
+</script>
+```
+
+
+
+## 08-v-if指令
+
+### 1.什么是v-if指令
+
+条件渲染: 如果v-if取值是true就渲染元素, 如果不是就不渲染元素
+
+### 2.v-if特点:
+
+如果条件不满足根本就不会创建这个元素(重点)
+
+### 3.v-if注意点
+
+v-if可以从模型中获取数据
+v-if也可以直接赋值一个表达式
+
+### 4.v-else指令
+
+v-else指令可以和v-if指令配合使用, 当v-if不满足条件时就执行v-else就显示v-else中的内容
+
+### 5.v-else注意点
+
+v-else不能单独出现
+v-if和v-else中间不能出现其它内容
+
+### 6.v-else-if指令
+
+v-else-if可以和v-if指令配合使用, 当v-if不满足条件时就依次执行后续v-else-if, 哪个满足就显示哪个
+
+#### 7.v-else-if注意点
+
+和v-else一样
+
+例子：
+
+```html
+<div id="app">
+    <!--    <p v-if="show">我是true</p>-->
+    <!--    <p v-if="hidden">我是false</p>-->
+    <!--    <p v-if="true">我是true</p>-->
+    <!--    <p v-if="false">我是false</p>-->
+    <!--    <p v-if="age >= 18">我是true</p>-->
+    <!--    <p v-if="age < 18">我是false</p>-->
+
+    <!--    <p v-if="age >= 18">成年人</p>-->
+    <!--    <p>中间的内容</p>-->
+    <!--    <p v-else>未成年人</p>-->
+
+    <p v-if="score >= 80">优秀</p>
+    <p v-else-if="score >= 60">良好</p>
+    <p v-else>差</p>
+</div>
+<script>
+    //2.创建Vue实例对象
+    let vue = new Vue({
+       //3.告诉Vue的实例对象，将来需要控制界面上的那个区域
+        el: '#app',
+        //4.告诉Vue实例对象，被控制区域的数据是什么
+        data: {
+            show: true,
+            hidden: false,
+            age: 17,
+            score: 100
+        }
+    });
+</script>
+```
+
+## 09-v-show
+
+### 1.什么是v-show指令
+
+v-show和v-if的能够一样都是条件渲染, 取值为true就显示, 取值为false就不显示
+
+### 2.v-if和v-show区别
+
+v-if: 只要取值为false就不会创建元素
+v-show: 哪怕取值为false也会创建元素, 只是如果取值是false会设置元素的display为none
+
+### 3.v-if和v-show应用场景
+
+由于取值为false时v-if不会创建元素, 所以如果需要切换元素的显示和隐藏, 每次v-if都会创建和删除元素
+由于取值为false时v-show会创建元素并设置display为none, 所有如果需要切换元素的显示和隐藏,
+不会反复创建和删除, 只是修改display的值
+所以: 如果企业开发中需要频繁切换元素显示隐藏, 那么推荐使用v-show, 否则使用v-if
